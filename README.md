@@ -9,7 +9,7 @@ How to use
 ----------
 
 ```
-_ExtInputBox($sTitle, $sTexts [ , $sDefaults = Null [ , $sPasswords = Null [ , $sBtnLabels = "OK|Cancel" [ , $iWidth = -1 [ , $iLeft = -1 [ , $iTop = -1 [ , $iTimeout = 0 [ , $hParent = 0 ] ] ] ] ] ] ] ] )
+_ExtInputBox($sTitle, $sTexts [ , $sDefaults = Null [ , $sPasswords = Null [ , $sBtnLabels = "OK|Cancel" [ , $iWidth = -1 [ , $iLeft = -1 [ , $iTop = -1 [ , $iTimeout = 0 [ , $hParent = 0 [ , $iDefButton = 0 ] ] ] ] ] ] ] ] ] )
 ```
 
 Arguments are:
@@ -24,6 +24,7 @@ Arguments are:
 * **$iTop**: Distance of the window to the top of the screen (default is centered)
 * **$iTimeout**: Time limit for filling the form data (default is none)
 * **$hParent**: Parent form (default is none)
+* **$iDefButton**: Set OK (1) or Cancel (2) as default button (default is 0 = no default button; user must click on a button)
 
 Return value
 ------------
