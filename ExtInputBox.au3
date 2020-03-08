@@ -3,14 +3,16 @@
 #include <Timers.au3>
 #include <GUIConstantsEx.au3>
 #include <EditConstants.au3>
+#include <GuiButton.au3>
 
 #cs
    ExtInputBox UDF
 	  written by Jefrey <jefrey[at]jefrey.ml>
 #ce
 
-Func _ExtInputBox($sTitle, $sTexts, $sDefaults = Null, $sPasswords = Null, $sBtnLabels = "OK|Cancel", $iWidth = -1, $iLeft = -1, $iTop = -1, $iTimeout = 0, $hParent = 0)
-   $sTexts = StringSplit($sTexts, "|")
+Func _ExtInputBox($sTitle, $sTexts, $sDefaults = Null, $sPasswords = Null, $sBtnLabels = "OK|Cancel", _
+		$iWidth = -1, $iLeft = -1, $iTop = -1, $iTimeout = 0, $hParent = 0, $iDefButton = 0)
+	$sTexts = StringSplit($sTexts, "|")
 
    $sPasswords = StringRegExpReplace($sPasswords, "[^0-9]", "|")
    $sPasswords = "|" & $sPasswords & "|"
@@ -34,7 +36,7 @@ Func _ExtInputBox($sTitle, $sTexts, $sDefaults = Null, $sPasswords = Null, $sBtn
    Local $aInputs[UBound($sTexts)]
    $aInputs[0] = UBound($sTexts)-1
    For $i = 1 To $sTexts[0]
-	  GUICtrlCreateLabel($sTexts[$i], 2, ($i-1)*($iTextHeight + $iLabelHeight + 3), $iWidth-2, $iLabelHeight)
+		GUICtrlCreateLabel($sTexts[$i], 10, ($i - 1) * ($iTextHeight + $iLabelHeight + 3), $iWidth - 2, $iLabelHeight)
 	  Local $style
 	  If StringInStr($sPasswords, "|" & $i & "|") Then
 		 $style = $ES_PASSWORD
@@ -45,12 +47,19 @@ Func _ExtInputBox($sTitle, $sTexts, $sDefaults = Null, $sPasswords = Null, $sBtn
 	  If $aDefaults[0] = $aInputs[0] Then
 		 $value = $aDefaults[$i]
 	  EndIf
-	  $aInputs[$i] = GUICtrlCreateInput($value, 2, (($i-1)*($iTextHeight + $iLabelHeight + 3))+$iLabelHeight+2, $iWidth-2, $iTextHeight, $style)
+		$aInputs[$i] = GUICtrlCreateInput($value, 10, (($i - 1) * ($iTextHeight + $iLabelHeight + 3)) + $iLabelHeight + 2, $iWidth - 22, $iTextHeight, $style)
    Next
 
+	Local $button1status = ""
+	Local $button2status = ""
+	If $iDefButton = 1 Then
+		$button1status = $BS_DEFPUSHBUTTON
+	ElseIf $iDefButton = 2 Then
+		$button2status = $BS_DEFPUSHBUTTON
+	EndIf
    $aBtnLabels = StringSplit($sBtnLabels, "|")
-   $hOkBtn = GUICtrlCreateButton($aBtnLabels[1], 2, ($i-1)*($iTextHeight + $iLabelHeight + 3)+4, 60)
-   $hCancelBtn = GUICtrlCreateButton($aBtnLabels[2], 62, ($i-1)*($iTextHeight + $iLabelHeight + 3)+4, 60)
+	$hOkBtn = GUICtrlCreateButton($aBtnLabels[1], 10, ($i - 1) * ($iTextHeight + $iLabelHeight + 3) + 4, 60, 25, $button1status)
+	$hCancelBtn = GUICtrlCreateButton($aBtnLabels[2], 72, ($i - 1) * ($iTextHeight + $iLabelHeight + 3) + 4, 60, 25, $button2status)
 
    GUISetState(@SW_SHOW, $hWnd)
    GUICtrlSetState($aInputs[1], $GUI_FOCUS)
